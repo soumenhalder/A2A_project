@@ -1,0 +1,37 @@
+
+PUT collections/MyTest_Project/index
+{
+  "field_name": "metadata.loc.lines.from",
+  "field_schema": "integer"
+}
+
+
+POST collections/MyTest_Project/points/scroll
+{
+  "limit": 100,
+  "order_by": {
+    "key": "metadata.loc.lines.from",
+    "direction": "asc"
+  },
+  "with_vector": false,
+  "with_payload": {
+    "include": ["content"]
+  },
+  "filter": {
+    "must": [
+      {
+        "key": "metadata.loc.lines.from",
+        "range": { "gte": 2 }
+      },
+      {
+        "key": "metadata.loc.lines.to",
+        "range": { "lte": 1000 }
+      },
+       {
+         "key":"metadata.source",
+         "match": {"value":"https://www.ijfmr.com/papers/2023/4/5954.pdf"}
+       }
+    ]
+  }
+}
+
